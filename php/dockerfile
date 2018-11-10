@@ -1,0 +1,13 @@
+ARG PHP_VERSION
+
+FROM php:${PHP_VERSION}-fpm
+RUN apt-get update && apt-get install -y \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+	&& docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) mysqli \
+	&& pecl install redis-4.0.1 \
+    && pecl install xdebug-2.6.0 \
+    && docker-php-ext-enable redis xdebug
